@@ -1,0 +1,19 @@
+{
+    "cmake.configureOnOpen": false,
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.configureSettings": {
+        "CMAKE_MESSAGE_LOG_LEVEL": "STATUS"
+    },
+    "cmake.generator": "Ninja",
+    "cmake.debugConfig": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "gdb",
+        "stopAtEntry": true
+    },
+    "cmake.configureOnEdit": false,
+    "cmake.buildBeforeRun": false,
+    "files.associations": {
+        "assert.h": "c"
+    },
+    "editor.formatOnSave": true
+}
