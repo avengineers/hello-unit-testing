@@ -1,5 +1,6 @@
 #include "calc.h"
 
-int16_t calc_add(int16_t a, int16_t b) {
-    return a;
+int32_t calc_add(int16_t a, int16_t b)
+{
+    return (int32_t)a + (int32_t)b;
 }
