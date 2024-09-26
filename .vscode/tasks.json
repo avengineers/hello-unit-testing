@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Get mandatory tools",
+            "detail": "Installation of mandatory tools",
+            "type": "shell",
+            "command": ".\\build.ps1 -install",
+            "problemMatcher": []
+        },
+        {
+            "label": "Environment",
+            "detail": "Print all environment variables for debugging purposes",
+            "type": "shell",
+            "command": "dir env:",
+            "problemMatcher": []
+        },
+        {
+            "label": "Configure variant",
+            "detail": "Feature configuration using KConfig",
+            "type": "shell",
+            "command": "pipenv run guiconfig",
+            "options": {
+                "env": {
+                    "KCONFIG_CONFIG": "variants/${input:variant}/config.txt"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "open report html",
+            "command": "${workspaceFolder}/build/default/test/${input:component}/reports/html/index.html",
+            "type": "shell",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "open coverage report",
+            "command": "${workspaceFolder}/build/default/test/${input:component}/reports/coverage/index.html",
+            "type": "shell",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "type": "pickString",
+            "id": "component",
+            "description": "Which component do you want to select?",
+            "options": [
+                "components/calc"
+            ]
+        }
+    ]
+}
