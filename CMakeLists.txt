@@ -1,82 +1,40 @@
-cmake_minimum_required(VERSION 3.20)
-set(CMAKE_TOOLCHAIN_FILE tools/toolchains/gcc/toolchain.cmake CACHE PATH "toolchain file")
-project(hello-unit-testing)
+# cmake project definition
+cmake_minimum_required(VERSION 3.24.0)
+cmake_policy(VERSION 3.24)
 
-# GoogleTest (https://google.github.io/googletest/)
-# GoogleTest requires at least C++14
-set(CMAKE_CXX_STANDARD 14)
+# configure the current variant to be build
+set(BUILD_KIT prod CACHE STRING "Target Group to build.")
 
-include(FetchContent)
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG v1.14.0
-)
+include(${CMAKE_SOURCE_DIR}/variants/${VARIANT}/config.cmake)
 
-if(WIN32)
-    # Prevent overriding the parent project's compiler/linker
-    # settings on Windows
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+if(BUILD_KIT STREQUAL prod)
+    project(${VARIANT} C ASM)
+else()
+    # C++ project due to GTest usage
+    project(${VARIANT} C ASM CXX)
 endif()
 
-set(CMAKE_DISABLE_FIND_PACKAGE_Python TRUE)
+# Fetch all external dependencies into modules directory
+set(FETCHCONTENT_BASE_DIR ${CMAKE_SOURCE_DIR}/build/modules CACHE INTERNAL "")
+set(FETCHCONTENT_QUIET FALSE)
+include(FetchContent)
 
-FetchContent_MakeAvailable(googletest)
-
-include(GoogleTest)
-
-find_package(Threads REQUIRED)
-
-enable_testing()
-
-# Item under test
-add_executable(
-    test_calc
-    components/calc/src/calc.c
-    components/calc/test/test_calc.cc
+# Fetch spl-core
+FetchContent_Declare(
+    spl-core
+    GIT_REPOSITORY https://github.com/avengineers/spl-core.git
+    GIT_TAG v5.0.0
 )
+FetchContent_MakeAvailable(spl-core)
 
-target_include_directories(
-    test_calc
-    PRIVATE
-    components/calc/src
-)
+# Include spl-core
+include(${spl-core_SOURCE_DIR}/cmake/spl.cmake)
 
-target_link_libraries(
-    test_calc
-    GTest::gtest_main
-    GTest::gmock_main
-    Threads::Threads
-)
+include(${CMAKE_SOURCE_DIR}/variants/${VARIANT}/parts.cmake)
 
-gtest_discover_tests(test_calc)
-
-# Item under test
-add_executable(
-    test_a
-    components/a/src/a.c
-    components/a/test/test_a.cc
-)
-
-target_include_directories(
-    test_a
-    PRIVATE
-    components/a/src
-    components/b/src
-)
-
-target_link_libraries(
-    test_a
-    GTest::gtest_main
-    GTest::gmock_main
-    Threads::Threads
-)
-
-gtest_discover_tests(test_a)
-
-add_custom_target(
-    run_tests
-    ALL
-    DEPENDS test_calc test_a
-    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-)
+# add all components' include paths to all components
+foreach(component_name ${COMPONENT_NAMES})
+    if(TARGET ${component_name})
+        target_include_directories(${component_name} PUBLIC ${target_include_directories__INCLUDES})
+    endif()
+endforeach()

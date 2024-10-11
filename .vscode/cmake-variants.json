@@ -1,0 +1,15 @@
+{
+  "variant": {
+    "choices": {
+      "default": {
+        "buildType": "default",
+        "long": "select to build variant 'default'",
+        "settings": {
+          "VARIANT": "default"
+        },
+        "short": "default"
+      }
+    },
+    "default": "default"
+  }
+}
