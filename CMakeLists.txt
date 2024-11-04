@@ -51,9 +51,32 @@ target_link_libraries(
 
 gtest_discover_tests(test_calc)
 
+# Item under test
+add_executable(
+    test_a
+    components/a/src/a.c
+    components/a/test/test_a.cc
+)
+
+target_include_directories(
+    test_a
+    PRIVATE
+    components/a/src
+    components/b/src
+)
+
+target_link_libraries(
+    test_a
+    GTest::gtest_main
+    GTest::gmock_main
+    Threads::Threads
+)
+
+gtest_discover_tests(test_a)
+
 add_custom_target(
-    run_test
+    run_tests
     ALL
-    DEPENDS test_calc
+    DEPENDS test_calc test_a
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
 )
