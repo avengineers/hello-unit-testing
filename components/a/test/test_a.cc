@@ -9,45 +9,48 @@ extern "C"
 
 #include "mockup_components_a.h"
 
-TEST(CompATest, FunctionA_1)
+// Define a struct to hold the parameters for testing component a
+struct ComponentAParameters
+{
+    const char* description;
+    int16_t funcGetB1ReturnValue;
+    int16_t funcGetB2ReturnValue;
+    int32_t expectedResult;
+};
+
+// Override the cout operator for TestParam so that it can be printed in the test output
+std::ostream& operator<<(std::ostream& os, const ComponentAParameters& param)
+{
+    os << param.description;
+    return os;
+}
+
+// Define a test fixture class
+class CompATest : public ::testing::TestWithParam<struct ComponentAParameters>
+{
+};
+
+TEST_P(CompATest, FunctionA)
 {
     /* Arrange */
-    CREATE_MOCK(myMock);
-    ON_CALL(myMock, getB1()).WillByDefault(Return(7));
-    ON_CALL(myMock, getB2()).WillByDefault(Return(5));
+    ComponentAParameters param = GetParam();
 
+    CREATE_MOCK(myMock);
+    ON_CALL(myMock, getB1()).WillByDefault(Return(param.funcGetB1ReturnValue));
+    ON_CALL(myMock, getB2()).WillByDefault(Return(param.funcGetB2ReturnValue));
 
     /* Act */
     int32_t returnValueA = a();
 
     /* Assert */
-    EXPECT_EQ(returnValueA, 13);
+    EXPECT_EQ(returnValueA, param.expectedResult);
 }
 
-TEST(CompATest, FunctionA_2)
-{
-    /* Arrange */
-    CREATE_MOCK(myMock);
-    ON_CALL(myMock, getB1()).WillByDefault(Return(38));
-    ON_CALL(myMock, getB2()).WillByDefault(Return(-142));
-
-    /* Act */
-    int32_t returnValueA = a();
-
-    /* Assert */
-    EXPECT_EQ(returnValueA, -103);
-}
-
-TEST(CompATest, FunctionA_3)
-{
-    /* Arrange */
-    CREATE_MOCK(myMock);
-    ON_CALL(myMock, getB1()).WillByDefault(Return(-322));
-    ON_CALL(myMock, getB2()).WillByDefault(Return(-338));
-
-    /* Act */
-    int32_t returnValueA = a();
-
-    /* Assert */
-    EXPECT_EQ(returnValueA, -659);
-}
+// Instantiate the test suite with a set of parameters
+INSTANTIATE_TEST_SUITE_P(
+    CompATests,
+    CompATest,
+    ::testing::Values(
+        ComponentAParameters{ "Test 1", 7, 5, 13 },
+        ComponentAParameters{ "Test 2", 38, -142, -103 },
+        ComponentAParameters{ "Test 3", -322, -338, -659 }));
