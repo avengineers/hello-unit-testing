@@ -8,6 +8,7 @@ class Test_default(BaseVariantTestRunner):
         return [
             Path("components/calc"),
             Path("components/a"),
+            Path("components/moving_average"),
         ]
 
     @property
