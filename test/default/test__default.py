@@ -10,6 +10,7 @@ class Test_default(BaseVariantTestRunner):
             Path("components/a"),
             Path("components/moving_average"),
             Path("components/diagnostic"),
+            Path("components/led"),
         ]
 
     @property
