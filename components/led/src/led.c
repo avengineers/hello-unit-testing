@@ -11,16 +11,16 @@ void setColor(Color color)
     case RED:
         led_color.red = 0xFFU;
         led_color.green = 0U;
-        led_color.blue = 10U;
+        led_color.blue = 0U;
         break;
     case GREEN:
         led_color.red = 0U;
         led_color.green = 0xFFU;
-        led_color.blue = 10U;
+        led_color.blue = 0U;
         break;
     case BLUE:
         led_color.red = 0U;
-        led_color.green = 10U;
+        led_color.green = 0U;
         led_color.blue = 0xFFU;
         break;
     default:
@@ -39,13 +39,13 @@ void setBrightness(Brightness brightness)
     switch (brightness)
     {
     case FULL:
-        led_brightness.brightness = 99U;
+        led_brightness.brightness = 100U;
         break;
     case HALF:
-        led_brightness.brightness = 49U;
+        led_brightness.brightness = 50U;
         break;
     case OFF:
-        led_brightness.brightness = 10U;
+        led_brightness.brightness = 0U;
         break;
     default:
         /* Do nothing, wrong brightness */
