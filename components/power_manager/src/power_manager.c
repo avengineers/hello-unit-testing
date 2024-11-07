@@ -7,15 +7,18 @@
 
 /* To avoid conversion, raw data will be used: 6V = 0x17FU*/
 #define ADC_MIN_VOLTAGE   0x17FU
+#define MAX_IDLE_CYCLE    2U
 
 static PowerManagerState currentState = INITIALISATION;
 static bool shut_down = false;
+static uint8_t idle_cycle_counter = 0U;
 
 /* Internal functions */
 static bool isVoltageBelowThreshold(void);
 static void handleInitializationState(void);
 static void handleActiveState(void);
 static void handleIdleState(void);
+static void handleLowPowerState(void);
 static void handlePrepareShutdownState(void);
 
 /* Power manager initialization */
@@ -23,6 +26,7 @@ void PowerManagerInit(void)
 {
     currentState = INITIALISATION;
     shut_down = false;
+    idle_cycle_counter = 0U;
 }
 
 /* Initiate shut down sequence */
@@ -50,6 +54,9 @@ void powerManagerCyclic(void)
         break;
     case IDLE:
         handleIdleState();
+        break;
+    case LOW_POWER:
+        handleLowPowerState();
         break;
     case PREPARE_SHUTDOWN:
         handlePrepareShutdownState();
@@ -101,6 +108,7 @@ static void handleActiveState(void)
     if (getCommunicationStatus() == NO_COMMUNICATION)
     {
         currentState = IDLE;
+        idle_cycle_counter = 0U;
     }
     else if (isVoltageBelowThreshold() || shut_down)
     {
@@ -113,6 +121,30 @@ static void handleActiveState(void)
 }
 
 static void handleIdleState(void)
+{
+    if (getCommunicationStatus() == FULL_COMMUNICATION)
+    {
+        currentState = ACTIVE;
+    }
+    else if (isVoltageBelowThreshold() || shut_down)
+    {
+        currentState = PREPARE_SHUTDOWN;
+    }
+    else if (idle_cycle_counter < MAX_IDLE_CYCLE)
+    {
+        idle_cycle_counter++;
+    }
+    else if (idle_cycle_counter >= MAX_IDLE_CYCLE)
+    {
+        currentState = LOW_POWER;
+    }
+    else
+    {
+        /* Nothing to do, MISRA */
+    }
+}
+
+static void handleLowPowerState(void)
 {
     if (getCommunicationStatus() == FULL_COMMUNICATION)
     {

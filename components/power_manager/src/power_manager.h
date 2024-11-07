@@ -6,6 +6,7 @@ typedef enum
     INITIALISATION,
     ACTIVE,
     IDLE,
+    LOW_POWER,
     PREPARE_SHUTDOWN
 } PowerManagerState;
 
