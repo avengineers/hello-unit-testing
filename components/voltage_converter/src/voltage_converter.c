@@ -27,6 +27,6 @@ extern void voltageConverterCyclic(void)
     if (result == ADC_READ_OK)
     {
         /*Convert ADC value */
-        voltage = (adc_value * VOLTAGE_MAX);
+        voltage = (adc_value * VOLTAGE_MAX) / ADC_MAX;
     }
 }
