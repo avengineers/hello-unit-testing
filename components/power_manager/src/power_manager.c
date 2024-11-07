@@ -40,25 +40,22 @@ PowerManagerState getCurrentState(void)
 /* Power manager cyclic function */
 void powerManagerCyclic(void)
 {
-    if (isVoltageBelowThreshold())
+    switch ((currentState))
     {
-        currentState = PREPARE_SHUTDOWN;
-    }
-    else if (currentState == INITIALISATION)
-    {
+    case INITIALISATION:
         handleInitializationState();
-    }
-    else if (currentState == ACTIVE)
-    {
+        break;
+    case ACTIVE:
         handleActiveState();
-    }
-    else if (currentState == IDLE)
-    {
+        break;
+    case IDLE:
         handleIdleState();
-    }
-    else
-    {
+        break;
+    case PREPARE_SHUTDOWN:
         handlePrepareShutdownState();
+        break;
+    default:
+        break;
     }
 }
 
