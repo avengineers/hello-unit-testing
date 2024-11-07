@@ -1,0 +1,4 @@
+#ifndef VOLTAGE_MONITOR
+#define VOLTAGE_MONITOR
+
+#endif /* VOLTAGE_MONITOR */
