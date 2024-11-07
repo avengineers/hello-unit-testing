@@ -11,6 +11,7 @@ class Test_default(BaseVariantTestRunner):
             Path("components/moving_average"),
             Path("components/diagnostic"),
             Path("components/led"),
+            Path("components/voltage_converter"),
         ]
 
     @property
