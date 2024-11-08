@@ -10,10 +10,15 @@ typedef enum
     POSITION_WRONG      /* Position is not correct */
 } MovementStatus;
 
+typedef enum
+{
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    MOVE_UP,
+    MOVE_DOWN
+} MovementDirection;
+
 /* Movement commands */
-extern MovementStatus moveLeft(uint16_t points);
-extern MovementStatus moveRight(uint16_t points);
-extern MovementStatus moveUp(uint16_t points);
-extern MovementStatus moveDown(uint16_t points);
+extern MovementStatus move(uint16_t points, MovementDirection direction);
 
 #endif /* POSITION_MANAGER_H */
