@@ -14,6 +14,7 @@ class Test_default(BaseVariantTestRunner):
             Path("components/voltage_converter"),
             Path("components/voltage_monitor"),
             Path("components/power_manager"),
+            Path("components/position_manager"),
         ]
 
     @property
