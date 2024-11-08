@@ -33,7 +33,7 @@ TEST(PositionManagerTest, MoveLeftInRange)
     EXPECT_CALL(myMock, setNewPostion(Pointee(PositionEq(move_left_from_middle)))).Times(1);
 
     /* Act */
-    MovementStatus status = moveLeft(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_LEFT);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_OK);
@@ -47,7 +47,7 @@ TEST(PositionManagerTest, MoveLeftOutOfRange)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveLeft(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE, MOVE_LEFT);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_NOT_POSSIBLE);
@@ -61,7 +61,7 @@ TEST(PositionManagerTest, MoveLeftWrongPosition)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveLeft(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_LEFT);
 
     /* Assert */
     EXPECT_EQ(status, POSITION_WRONG);
@@ -75,7 +75,7 @@ TEST(PositionManagerTest, MoveRightInRange)
     EXPECT_CALL(myMock, setNewPostion(Pointee(PositionEq(move_right_from_middle)))).Times(1);
 
     /* Act */
-    MovementStatus status = moveRight(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_RIGHT);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_OK);
@@ -89,7 +89,7 @@ TEST(PositionManagerTest, MoveRightOutOfRange)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveRight(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE, MOVE_RIGHT);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_NOT_POSSIBLE);
@@ -103,7 +103,7 @@ TEST(PositionManagerTest, MoveRightWrongPosition)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveRight(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_RIGHT);
 
     /* Assert */
     EXPECT_EQ(status, POSITION_WRONG);
@@ -117,7 +117,7 @@ TEST(PositionManagerTest, MoveUpInRange)
     EXPECT_CALL(myMock, setNewPostion(Pointee(PositionEq(move_up_from_middle)))).Times(1);
 
     /* Act */
-    MovementStatus status = moveUp(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_UP);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_OK);
@@ -131,7 +131,7 @@ TEST(PositionManagerTest, MoveUpOutOfRange)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveUp(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE, MOVE_UP);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_NOT_POSSIBLE);
@@ -145,7 +145,7 @@ TEST(PositionManagerTest, MoveUpWrongPosition)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveUp(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_UP);
 
     /* Assert */
     EXPECT_EQ(status, POSITION_WRONG);
@@ -159,7 +159,7 @@ TEST(PositionManagerTest, MoveDownInRange)
     EXPECT_CALL(myMock, setNewPostion(Pointee(PositionEq(move_down_from_middle)))).Times(1);
 
     /* Act */
-    MovementStatus status = moveDown(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_DOWN);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_OK);
@@ -173,7 +173,7 @@ TEST(PositionManagerTest, MoveDownOutOfRange)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveDown(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_OUT_OF_RANGE_FOR_MIDDLE, MOVE_DOWN);
 
     /* Assert */
     EXPECT_EQ(status, MOVE_NOT_POSSIBLE);
@@ -187,7 +187,7 @@ TEST(PositionManagerTest, MoveDownWrongPosition)
     EXPECT_CALL(myMock, setNewPostion(_)).Times(0);
 
     /* Act */
-    MovementStatus status = moveDown(MOVEMENT_IN_RANGE_FOR_MIDDLE);
+    MovementStatus status = move(MOVEMENT_IN_RANGE_FOR_MIDDLE, MOVE_DOWN);
 
     /* Assert */
     EXPECT_EQ(status, POSITION_WRONG);
